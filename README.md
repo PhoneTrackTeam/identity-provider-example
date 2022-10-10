@@ -7,6 +7,10 @@
 docker-compose up -d --build
 ```
 
+## Accessing project localhost
+
+[http://localhost:8081/](http://localhost:8081/)
+
 ## Config Phonetrack
 
 ```php
