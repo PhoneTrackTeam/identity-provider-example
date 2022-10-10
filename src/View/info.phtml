@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSO Settings</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    <div class="container">
+        <section class="hero is-primary">
+            <div class="hero-body">
+                <p class="title">SSO Settings</p>
+                <p class="subtitle">Copy and Paste in Service Provider - SP</p>
+            </div>
+        </section>
+        <section class="hero">
+            <div class="hero-body">
+                <div class="field">
+                    <label class="label">Name IdP</label>
+                    <div class="control">
+                        <input class="input" type="text" readonly value="<?=$name?>">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Entity ID</label>
+                    <div class="control">
+                        <input class="input" type="text" readonly value="<?=$entity?>">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">SSO URL </label>
+                    <div class="control">
+                        <input class="input" type="text" readonly value="<?=$sso?>">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">SSO Binding</label>
+                    <div class="control">
+                        <input class="input" type="text" readonly value="<?=$binding?>">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">SLS URL</label>
+                    <div class="control">
+                        <input class="input" type="text" readonly value="<?=$sls?>">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">SLS Binding</label>
+                    <div class="control">
+                        <input class="input" type="text" readonly value="<?=$binding?>">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Certificate</label>
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Textarea"><?=$cert?></textarea>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <a class="button is-ghost" href="/">Back to Home</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

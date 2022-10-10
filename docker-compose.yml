@@ -1,0 +1,14 @@
+version: '3'
+services:
+  idp:
+    image: idp-example
+    build:
+      context: .
+    ports:
+      - 8081:80
+    volumes:
+      - .:/var/www
+    environment:
+      - PRIVATE_KEY_PATH=/var/www/certs/private_key.pem
+      - CERTIFICATE_PATH=/var/www/certs/certificate.crt
+    entrypoint: /var/www/entrypoint.sh

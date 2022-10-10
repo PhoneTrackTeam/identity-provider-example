@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identity Providder - IdP</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="mt-6 pt-6">
+            <form class="box" method="post" action="login.php" id="idp-login">
+                <div class="field">
+                    <label class="label">Username</label>
+                    <div class="control">
+                    <input name="user[username]" class="input" type="text" placeholder="teste01">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control">
+                    <input name="user[password]" class="input" type="password" placeholder="********">
+                    </div>
+                </div>
+
+                <button class="button is-info" type="submit">Sign in</button>
+            </form>
+            <div class="field">
+                    <a class="button is-ghost" href="/">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identity Providder - IdP</title>
+</head>
+<body>
+    <div>redirecting...</div>
+    <form method="post" action="<?= $urlAcs ?>" id="idp-redirect">
+        <input name="SAMLResponse" type="hidden" value='<?=$samlResponse?>'>
+        <input name="RelayState" type="hidden" value="<?=$relayState?>">
+    </form>
+    <script>
+        window.addEventListener('load', e => {
+            let form = document.getElementById('idp-redirect');
+            form.submit();
+        });
+    </script>
+</body>
+</html>
