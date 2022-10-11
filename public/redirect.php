@@ -68,7 +68,7 @@ $samlResponse = base64_encode($signature->getSAMLResponseSigned());
 $dataView = [
     'urlAcs' => $_SESSION['AssertionConsumerServiceURL'],
     'samlResponse' => $samlResponse,
-    'relayState' => '/',
+    'relayState' => $_SESSION['RelayState'],
 ];
 
 unset($_SESSION['AssertionConsumerServiceURL']);
