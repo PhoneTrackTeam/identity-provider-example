@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iFrame</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    <div class="container">
+        <section class="hero is-primary">
+            <div class="hero-body">
+                <p class="title">iFrame</p>
+                <p class="subtitle">URL Redirect and test frame Phonetrack</p>
+            </div>
+        </section>
+        <section class="hero">
+            <div class="hero-body">
+                <div class="field">
+                    <label class="label">Phonetrack URL Redirect</label>
+                    <p class="control has-icons-left">
+                        <input
+                            id="input"
+                            class="input"
+                            type="text"
+                            style="padding-left: 10.8em;"
+                            onkeyup="getQuery(this)"
+                            value="<?=$redirect_url?>"
+                        >
+                        <span class="icon is-left" style="width: auto;padding-left: 5px;">https://phonetrack.app</span>
+                    </p>
+                </div>
+
+                <div class="block">
+                    <label class="label">URL Login SAML with redirect_url</label>
+                    <div class="content"><em>Copy URL and paste in your browser</em></div>
+                    <div id="url">
+                        <?=$host?><?=$pathsaml?>/<strong><?=$name?></strong>?redirect_url=<span id="query"></span>
+                    </div>
+                    <div class="mt-4">
+                        <button class="button is-success" onclick="openInFrame()">Test in iFrame</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <a class="button is-ghost" href="/">Back to Home</a>
+                </div>
+            </div>
+        </section>
+        <section class="container">
+            <iframe id="frame" title="Phonetrack" style="width: 100%;height: 500px;" style="border: 0;"></iframe>
+        </section>
+    </div>
+    <script>
+        function getQuery(input) {
+            let query = document.getElementById('query');
+            query.textContent = input.value.replace(/&/g, '__');
+        }
+
+        getQuery(document.getElementById('input'));
+
+        function openInFrame() {
+            let frame = document.getElementById('frame');
+            let url = document.getElementById('url');
+            frame.src = url.textContent.trim();
+        }
+    </script>
+</body>
+</html>

@@ -3,6 +3,7 @@
 use IdPExample\Helper\Utils;
 
 require_once '../bootstrap.php';
+$config = require_once '../config.php';
 
 $protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https' : 'http';
 $host = $_SERVER['HTTP_HOST'];
@@ -12,7 +13,7 @@ $sls = sprintf("%s://%s/logout.php", $protocol, $host);
 $entity = sprintf("%s://%s", $protocol, $host);
 
 $dataView = [
-    'name' => 'idpexample',
+    'name' => $config['idp']['name'],
     'entity' => $entity,
     'cert' => file_get_contents(getenv('CERTIFICATE_PATH') ?: '/var/www/certs/certificate.crt'),
     'sso' => $sso,
