@@ -11,6 +11,10 @@ ARG HOME_DIR=/home/www-data
 
 RUN apt update
 
+RUN pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis
+
 RUN mkdir ${HOME_DIR} \
     && chown -R ${USER_ID}:${GROUP_ID} ${HOME_DIR} \
     && usermod --uid ${USER_ID} --home ${HOME_DIR} --shell /bin/bash www-data \

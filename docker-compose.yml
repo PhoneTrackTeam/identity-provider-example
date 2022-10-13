@@ -12,3 +12,8 @@ services:
       - PRIVATE_KEY_PATH=/var/www/certs/private_key.pem
       - CERTIFICATE_PATH=/var/www/certs/certificate.crt
     entrypoint: /var/www/entrypoint.sh
+    links:
+      - redis
+
+  redis:
+    image: 'redis:5-alpine'
