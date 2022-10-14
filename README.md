@@ -11,6 +11,8 @@ docker-compose up -d --build
 
 [http://localhost:8081/](http://localhost:8081/)
 
+![home IdP](home-idp.png)
+
 ## Configuração Phonetrack
 
 ```php
