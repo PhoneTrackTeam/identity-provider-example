@@ -68,8 +68,7 @@ O [sso.php](public/sso.php) faz a descriptografia do `SAMLRequest` e extrai os m
 | Metadado | Descrição |
 |----------|-----------|
 |ID| Identificador da requisição SAML|
-|[AssertionConsumerServiceURL](https://medium.com/tech-learn-share/assertion-consumer-service-url-and-entity-id-issuer-in-saml-a18e7062e459) | Esse campo contém o URL que será utilizado para enviar o `POST` com `SAMLResponse` e `RelayState`.
- |
+|[AssertionConsumerServiceURL](https://medium.com/tech-learn-share/assertion-consumer-service-url-and-entity-id-issuer-in-saml-a18e7062e459) | Esse campo contém o URL que será utilizado para enviar o `POST` com `SAMLResponse` e `RelayState`.|
 |IssueInstant | Contém a data e hora de inicio da requisição SAML. Essa data  é importante porque é utilizada para validar se a requesição está expirada. Ex.: `2022-10-10T12:33:28Z`|
 
 **Redirect**
