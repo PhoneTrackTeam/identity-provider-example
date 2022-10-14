@@ -193,3 +193,148 @@ Essas são as informações para integrar com o Provedor de identidade.
 Acesse [http://localhost:8081/info.php](http://localhost:8081/info.php)
 
 ![settings idp](settings-idp.png)
+
+## Agora vamos falar de código
+
+**Manipulando SAMLRequest**
+
+Para tratar um `SAMLRequest` é preciso:
+- Obter o `SAMLRequest` que o Provedor de Serviço passou no URL **http://localhost:8081/sso.php**
+- Obtido o `SAMLRequest` agora devemos descriptografar esse `base64` recebido.
+- Agora precisamos inflar esse `decode`
+
+Teremos um código semelhante a esse:
+
+```php
+<?php
+# ./public/sso.php
+$decoded = base64_decode($_GET['SAMLRequest']);
+$xml_saml_request = gzinflate($decoded);
+```
+
+Nesse ponto já temos um XML com os metadados do `SAMLRequest`
+
+Para trabalhar de forma mais produtiva vamos utiliza a [extensão DOM](https://www.php.net/manual/en/intro.dom.php) nativa no PHP. Essa extensão vai facilitar a manipulação do XML.
+
+Segue um exemplo manipulando o XML do SAMLRequest
+
+```php
+<?php
+# ./public/sso.php
+$document = new DOMDocument();
+$document->loadXML($xml_saml_request);
+$xml = $document->firstChild;
+
+echo $xml->getAttribute('AssertionConsumerServiceURL');
+echo $xml->getAttribute('ID');
+echo $xml->getAttribute('IssueInstant');
+```
+
+**Gerando um SAMLResponse**
+
+Vamos quebrar nossa resposta em partes e no final vamos juntar todas para criar nosso SAMLResponse assinado.
+Vamos seguir essa ordem:
+- Issuer
+- Status
+- Assertion
+- Response
+- Signature
+
+**Dados fake para teste**
+
+Para auxiliar na craição dos objeto vamos criar algumas variaveis com dados fake
+
+```php
+<?php
+// Dados fake para teste
+$requestId = 'ONELOGIN_aa3753b2987a26a4c22';
+$sessionId = session_id()
+$signedId = hash('sha256', uniqid($sessionId));
+$entityId = 'http://localhost:8081';
+$userName = 'Test Example';
+$issueInstant = new \DateTime();
+
+// Dados que a Phonetrack precisa para autenticar usuario
+$attributes = [
+    'units_id' => '1,2,3',
+    'email' => 'test@example.com',
+    'account_id' => 1,
+];
+```
+
+**Criando o Issuer**
+```php
+<?php
+# ./public/redirect.php
+use IdPExample\Issuer;
+
+$issuer = new Issuer();
+$issuer->setContent($entityId);
+```
+
+**Criando o Status**
+```php
+<?php
+# ./public/redirect.php
+use IdPExample\Status;
+use OneLogin\Saml2\Constants;
+
+$status = new Status();
+$status->setStatusCode(Constants::STATUS_SUCCESS);
+```
+
+**Criando o Assertion**
+```php
+<?php
+# ./public/redirect.php
+use IdPExample\Build\AssertionBuild;
+
+$assertionBuild = new AssertionBuild($issueInstant);
+$assertionBuild
+    ->issuer($entityId)
+    ->conditions($issueInstant)
+    ->authnStatement($sessionId, $issueInstant)
+    ->attributeStatement($attributes)
+    ->subject($userName, [
+        'NotOnOrAfter' => clone $issueInstant,
+        'Recipient' => '',
+        'InResponseTo' => $requestId
+    ]);
+
+$assertion = $assertionBuild->getAssertion();
+```
+
+**Criando o Response**
+```php
+<?php
+# ./public/redirect.php
+use IdPExample\Response;
+
+$xmlResponse = new Response($signedId);
+$xmlResponse->setIssueInstant($issueInstant);
+$xmlResponse->setInResponseTo($requestId);
+$xmlResponse->setIssuer($issuer);
+$xmlResponse->setStatus($status);
+$xmlResponse->setAssertion($assertion);
+```
+
+**Assinando Response**
+
+```php
+<?php
+# ./public/redirect.php
+use IdPExample\Signature;
+
+$signature = new Signature();
+$signature->addSign($xmlResponse);
+```
+
+Agora já temos um XML assinado e podemos obter o `SAMLResponse`.
+
+```php
+<?php
+# ./public/redirect.php
+$samlResponse = base64_encode($signature->getSAMLResponseSigned());
+```
+
+O `$samlResponse` é um XML SAMLResponse criptografado em `base64`. Esse hash é enviado via POST para o URL Assertion Consumer Service - ACS do Provedor de Serviço.
