@@ -175,6 +175,7 @@ $saml_response = base64_encode($xml_saml_response);
 </form>
 ```
 *Exemplo Backend [public/redirect.php](/public/redirect.php)*
+
 *Exemplo Frontend [src/View/redirect.phtml](/src/View/redirect.phtml)*
 
 **URL de redirecionamento**
@@ -242,7 +243,7 @@ Vamos seguir essa ordem:
 
 **Dados fake para teste**
 
-Para auxiliar na craição dos objeto vamos criar algumas variaveis com dados fake
+Para auxiliar na criação dos objetos vamos criar algumas variaveis com dados fake
 
 ```php
 <?php
