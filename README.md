@@ -58,6 +58,7 @@ CERTIFICATE_PATH=/path/to/my/certificate.crt
 ## O que eu preciso entender desse fluxo?
 
 **SSO**
+
 O arquivo [sso.php](public/sso.php) é responsavel por receber o `SAMLRequest` criptografado e `RelayState` criado a partir do Provedor de Serviço.
 
 O [sso.php](public/sso.php) faz a descriptografia do `SAMLRequest` e extrai os metadados.
@@ -70,9 +71,11 @@ O [sso.php](public/sso.php) faz a descriptografia do `SAMLRequest` e extrai os m
 |IssueInstant | Contém a data e hora de inicio da requisição SAML. Essa data  é importante porque é utilizada para validar se a requesição está expirada. Ex.: `2022-10-10T12:33:28Z`|
 
 **Redirect**
+
 O arquivo [redirect.php](public/redirect.php) é responsavel por formatar e criptografar o `SAMLResponse`.
 
 **Formatando um SAMLResponse**
+
 O SAMLResponse é composto de algumas informações importante para garantir a confiabilidade dos dados enviado para o Provedor de Serviço.
 
 | Metadado | Descrição |
@@ -93,6 +96,7 @@ O SAMLResponse é composto de algumas informações importante para garantir a c
 |AttributeStatement|Atributos associado ao usuario autenticado.<br/>A Phonetrack depende do `email`, `account_id` e `units_id`|
 
 **Exemplo de XML SAMLResponse**
+
 ```xml
 <?xml version="1.0"?>
 <samlp:Response xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" Version="2.0" ID="pfxb1e42802-f516-1c47-427a-aefb30d24db8" IssueInstant="2022-10-10T12:33:28Z" InResponseTo="ONELOGIN_aa3753b2987ae987f9cd62814f052586826a4c22">
@@ -173,7 +177,6 @@ $saml_response = base64_encode($xml_saml_response);
 *Exemplo Frontend [src/View/redirect.phtml](/src/View/redirect.phtml)*
 
 **URL de redirecionamento**
-
 
 O `RelayState` contém o URL que o Provedor de Serviço - SP utiliza para redirecionar após receber a resposta do Provedor de Identidade - IdP.
 
