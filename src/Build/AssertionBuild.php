@@ -67,6 +67,7 @@ class AssertionBuild
     public function attributeStatement(array $attributes)
     {
         $attributeStatement = new AttributeStatement();
+        $attributeStatement->addAttribute('role', 'ROLE_ADMIN_CLIENTES');
         foreach($attributes as $attribute => $value) {
             $attributeStatement->addAttribute($attribute, $value);
         }
